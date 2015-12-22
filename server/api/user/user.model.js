@@ -16,6 +16,7 @@ var UserSchema = new Schema({
     type: String,
     default: 'user'
   },
+  fakeUserId:String,
   password: String,
   provider: String,
   salt: String,
@@ -33,7 +34,8 @@ UserSchema
   .get(function() {
     return {
       'name': this.name,
-      'role': this.role
+      'role': this.role,
+      'fakeUserId':this.fakeUserId
     };
   });
 
@@ -43,7 +45,8 @@ UserSchema
   .get(function() {
     return {
       '_id': this._id,
-      'role': this.role
+      'role': this.role,
+      'fakeUserId':this.fakeUserId
     };
   });
 

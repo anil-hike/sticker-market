@@ -1,0 +1,85 @@
+<navbar></navbar>
+<div class="container">
+<h2>Welcome to Hike Sticker Shop</h2>
+<div class="col-lg-6 pack-upload-form">
+	<form class="form sticker-upload-form" name="pack-upload-form" ng-submit="designer.createPack()">
+		<div class="form-group">
+			<label>Pack Name</label>
+			<input type="text" name="packname" class="form-control" ng-model="designer.pack.name" required>
+		</div>
+		<div class="form-group">
+			<label>Pack Description</label>
+			<textarea  name="packdesc" class="form-control" ng-model="designer.pack.desc" required></textarea>
+		</div>
+		<div class="form-group">
+			<label>Language</label>
+			<select class="form-control" name="langSelect" ng-model="designer.pack.lang">
+				<option value="hindi">Hindi</option>
+				<option value="english">English</option>
+				<option value="punjabi">Punjabi</option>
+				<option value="tamil">Tamil</option>
+				<option value="telugu">Telugu</option>
+				<option value="kannada">Kannada</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label>Pack Category</label>
+			<select class="form-control" name="catSelect" ng-model="designer.pack.cat">
+				<option value="loaction">Loaction Based</option>
+				<option value="date">Date Based</option>
+				<option value="event">Event Based</option>
+			</select>
+		</div>
+		<div class="date-picker-div form-group" ng-if="designer.pack.cat === 'date'">
+			<div class="row">
+				<div class="col-lg-6">
+					<label>From</label>
+					<input type="text" name="datefrom" class="form-control" ng-model="designer.pack.lifespan.from" required placeholder="From date in DD/MM format">
+				</div>
+				<div class="col-lg-6	">
+					<label>To</label>
+					<input type="text" name="dateto" class="form-control" ng-model="designer.pack.lifespan.to" required placeholder="To date in DD/MM format">
+				</div>
+			</div>
+		</div>
+
+		<div class="location-picker-div form-group" ng-if="designer.pack.cat === 'location'">
+			<p class="input-group">
+				<input type="text" class="form-control" uib-datepicker-popup="{{designer.format}}" ng-model="designer.pack.time" is-open="designer.calenderOpen" datepicker-options="designer.dateOptions" ng-required="true" close-text="Close" />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="designer.openCalender($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				</span>
+			</p>
+		</div>
+
+		<div class="form-group" ng-if="designer.pack.cat === 'event'">
+			<label>Pack Category</label>
+			<select name="eventSelect" ng-model="designer.pack.events">
+				<option value="xmas">X mas</option>
+				<option value="newyear">New Year</option>
+				<option value="diwali">Deepawali</option>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<label>Pack Tags</label>
+			<div class="tag-list" ng-if="designer.pack.tags.length">
+				<p class="tag" ng-repeat="tag in designer.pack.tags">{{tag}}
+					<button type="button" class="close" ng-click="designer.deleteTag($index)">&times;</button>
+				</p>
+			</div>
+			<input type="text" name="tags" class="form-control" ng-model="designer.tempTag" placeholder="add tags to your pack for search" ng-blur="designer.addTag()">
+		</div>
+
+		<div class="form-group">
+			<input class="form-control" multiple type="file" id="file" name="file" required value="upload stickers">
+		</div>
+		<div class="form-group">
+			<button class="btn btn-primary btn-login" type="submit">
+			Upload
+			</button>
+		</div>
+	</form>
+</div>
+<div class="col-lg-6 sidebar"></div>
+</div>

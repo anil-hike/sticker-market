@@ -22,7 +22,13 @@ class LoginController {
       })
       .then(() => {
         // Logged in, redirect to home
-        this.$state.go('main');
+        //this.currentUser = Auth.getCurrentUser();
+        if(this.Auth.isAdmin()){
+		this.$state.go('admin');
+        }else{
+        	console.log(this.$state);
+        	this.$state.go('designer');
+        }
       })
       .catch(err => {
         this.errors.other = err.message;

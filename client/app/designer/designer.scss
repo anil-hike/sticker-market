@@ -1,0 +1,31 @@
+.trash { color:rgb(209, 91, 71); }
+
+p.tag {
+    display: inline;
+    background: #e7e7e7;
+    margin-right: 5px;
+    padding: 3px 5px;
+    position: relative;
+    border-radius: 8px;
+}
+
+.tag button.close {
+    float: none;
+    font-size: 18px;
+    margin-left: 5px;
+}
+
+.tag-list {
+    margin: 10px;
+}
+
+
+form.sticker-upload-form {
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding-bottom:0;
+    border-radius: 5px;
+}
+
+

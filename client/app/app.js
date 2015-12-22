@@ -3,6 +3,7 @@
 angular.module('stickerMarketApp', [
   'stickerMarketApp.auth',
   'stickerMarketApp.admin',
+  'stickerMarketApp.designer',
   'stickerMarketApp.constants',
   'ngCookies',
   'ngResource',
