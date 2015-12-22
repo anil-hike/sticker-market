@@ -1,7 +1,57 @@
 <navbar></navbar>
 <div class="container">
-<h2>Welcome to Hike Sticker Shop</h2>
-<div class="col-lg-6 pack-upload-form">
+<div class="col-lg-9 welcome-heading  clearfix">
+	<h2 class="pull-left">Welcome to Hike Sticker Shop</h2>
+	<button ng-if="!designer.showUploadForm" class="btn btn-primary pull-right" ng-click="designer.showUploadForm = true">Upload new stickers</button>
+</div>
+<div class="col-lg-9" ng-if="!designer.showUploadForm">
+	<ul class="list-group packs-list">
+		<li class="list-group-item pack-list" ng-repeat="pack in designer.stickerPacks">
+			<div class="form-group clearfix">
+				<h4 class="pull-left">Pack Name: {{pack.name}}</h4>
+				<div class="pack-action-btns pull-right">
+					<button class="btn btn-primary" disabled ng-if="pack.approvalStatus==='approved'">Approved</button>
+					<button class="btn btn-warning" disabled ng-if="pack.approvalStatus==='pending'">Approval Pending</button>
+					<button class="btn btn-primary btn-danger" disabled ng-if="pack.approvalStatus==='rejected'">Rejected</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6 form-group">
+					<label class="key">Category: </label><label class="val">{{pack.cat}}</label>
+				</div>
+				<div class="col-lg-6 form-group" ng-if="pack.cat==='date'">
+					<label class="key">Time:  span</label><label class="val">From: {{pack.lifespan.from}} To: {{pack.lifespan.to}}</label>
+				</div>
+				<div class="col-lg-6 form-group" ng-if="pack.cat==='location'">
+					<label class="key">Location: </label><label class="val">{{pack.location.lat}}, {{pack.location.long}}</label>
+				</div>
+				<div class="col-lg-6 form-group" ng-if="pack.cat==='event'">
+					<label class="key">For Event:</label><label class="val">{{pack.events[0]}}</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 form-group">
+					<label class="key">Description: </label><label class="val">{{pack.desc}}</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 form-group tags-list">
+					<label class="key">Tags: </label><label class="val" ng-repeat="tag in pack.tags">{{tag}}</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 form-group">
+					<ul class="list-group user-list clearfix">
+						<li class="list-group-item sticker-list" ng-repeat="sticker in pack.stickers">
+							<img src="http://172.16.2.20:3000{{pack.path}}{{sticker}}" alt="" class="sticker">
+						</li>
+					</ul>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>
+<div class="col-lg-6 pack-upload-form" ng-if="designer.showUploadForm">
 	<form class="form sticker-upload-form" name="pack-upload-form" ng-submit="designer.createPack()">
 		<div class="form-group">
 			<label>Pack Name</label>
@@ -10,17 +60,6 @@
 		<div class="form-group">
 			<label>Pack Description</label>
 			<textarea  name="packdesc" class="form-control" ng-model="designer.pack.desc" required></textarea>
-		</div>
-		<div class="form-group">
-			<label>Language</label>
-			<select class="form-control" name="langSelect" ng-model="designer.pack.lang">
-				<option value="hindi">Hindi</option>
-				<option value="english">English</option>
-				<option value="punjabi">Punjabi</option>
-				<option value="tamil">Tamil</option>
-				<option value="telugu">Telugu</option>
-				<option value="kannada">Kannada</option>
-			</select>
 		</div>
 		<div class="form-group">
 			<label>Pack Category</label>
@@ -42,7 +81,6 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="location-picker-div form-group" ng-if="designer.pack.cat === 'location'">
 			<p class="input-group">
 				<input type="text" class="form-control" uib-datepicker-popup="{{designer.format}}" ng-model="designer.pack.time" is-open="designer.calenderOpen" datepicker-options="designer.dateOptions" ng-required="true" close-text="Close" />
@@ -51,7 +89,6 @@
 				</span>
 			</p>
 		</div>
-
 		<div class="form-group" ng-if="designer.pack.cat === 'event'">
 			<label>Pack Category</label>
 			<select name="eventSelect" ng-model="designer.pack.events">
@@ -60,7 +97,6 @@
 				<option value="diwali">Deepawali</option>
 			</select>
 		</div>
-
 		<div class="form-group">
 			<label>Pack Tags</label>
 			<div class="tag-list" ng-if="designer.pack.tags.length">
@@ -70,7 +106,6 @@
 			</div>
 			<input type="text" name="tags" class="form-control" ng-model="designer.tempTag" placeholder="add tags to your pack for search" ng-blur="designer.addTag()">
 		</div>
-
 		<div class="form-group">
 			<input class="form-control" multiple type="file" id="file" name="file" required value="upload stickers">
 		</div>

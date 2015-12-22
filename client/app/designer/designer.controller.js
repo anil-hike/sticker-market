@@ -6,7 +6,8 @@
 		constructor(Auth, $http) {
 			this.isLoggedIn = Auth.isLoggedIn;
 			this.isAdmin = Auth.isAdmin;
-			this.currentUser = Auth.getCurrentUser();
+
+			var currentUser = Auth.getCurrentUser();
 
 			this.pack = {
 				tags: [],
@@ -19,6 +20,21 @@
 					long: ''
 				}
 			};
+
+			this.fetchStickerPacks = function() {
+				var self = this;
+				$http({
+					method: 'GET',
+					url: 'http://172.16.2.20:3000/stickerpacks?authorId='+currentUser.fakeUserId
+				}).then(function successCallback(response) {
+					self.stickerPacks = response.data;
+				}, function errorCallback(response) {
+					// called asynchronously if an error occurs
+					// or server returns response with an error status.
+				});
+			}
+
+			this.fetchStickerPacks();
 
 			this.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
 			this.format = this.formats[0];
@@ -59,6 +75,7 @@
 
 			this.createPack = function() {
 				var packdata = angular.copy(this.pack);
+				var self = this;
 
 				if (packdata.cat !== 'date') {
 					packdata.lifespan = null;
@@ -78,7 +95,7 @@
 					packdata.tags = null
 				}
 
-				packdata.authorId = this.currentUser.fakeUserId;
+				packdata.authorId = currentUser.fakeUserId;
 				var formData = new FormData();
 
 				var files = document.getElementById('file').files;
@@ -95,7 +112,8 @@
 					data: formData,
 					headers:{'content-type': undefined}
 				}).then(function successCallback(response) {
-					console.log(response)
+					self.showUploadForm = false;
+					self.fetchStickerPacks();
 				}, function errorCallback(response) {
 					console.log(response)
 				});
